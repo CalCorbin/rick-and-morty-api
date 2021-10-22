@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 
- function getData(client) {
+function getData(client) {
   return client.query({
     query: gql`
       query {
@@ -21,21 +21,31 @@ import React, { useEffect, useState } from 'react'
 }
 
 const Locations = (props) => {
-  const [data, setData] = useState([]);
+  const [apiData, setApiData] = useState([]);
 
   useEffect(() => {
     let mounted = true;
-    getData(props.client)
-      .then(items => {
-        if (mounted) {
-          setData(items)
-        }
-      })
-    return () => mounted = false
-  }, [])
+    getData(props.client).then((items) => {
+      if (mounted) {
+        setApiData(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
 
-  console.log("-> data", data);
-  return <div>hello</div>;
-}
+  const { locations } = apiData.data
+
+  return (
+    <div>
+      <div>Cal's Rick and Morty API</div>
+      <h1>Locations</h1>
+      <ul>
+        {locations?.results?.map((location) => (
+          <li>{location.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 export default Locations;

@@ -23,6 +23,26 @@ function getData(client) {
 // const LocationResidents = () => {
 //
 // }
+const LocationMetrics = (props) => {
+  return (
+    <div style={{ "margin-bottom": "30px" }}>
+      <h3>{props.location.name}</h3>
+      <h4>Residents</h4>
+      <div>
+        {props.location.residents.map((resident) => {
+          return (
+            <div>
+              <div>
+                Name: {resident.name} | Status: {resident.status}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <hr />
+    </div>
+  );
+};
 
 const Locations = (props) => {
   const [apiData, setApiData] = useState([]);
@@ -43,7 +63,9 @@ const Locations = (props) => {
       <h1>Locations</h1>
       <ul>
         {apiData.data &&
-          apiData.data.locations.results.map((location) => <li>{location.name}</li>)}
+          apiData.data.locations.results.map((location) => (
+            <LocationMetrics location={location} />
+          ))}
       </ul>
     </div>
   );

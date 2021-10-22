@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import React, { useEffect, useState } from "react";
+import LocationMetrics from "../LocationMetrics/LocationMetrics";
 
 function getData(client) {
   return client.query({
@@ -20,30 +21,6 @@ function getData(client) {
     `,
   });
 }
-
-const LocationMetrics = (props) => {
-  return (
-    <div style={{ "margin-bottom": "30px" }}>
-      <h2>
-        {props.location.name} | {props.location.type}
-      </h2>
-      <h4>Residents</h4>
-      <div>
-        {props.location.residents.map((resident) => {
-          return (
-            <div style={{ "margin-bottom": "15px" }}>
-              <div><strong>Name:</strong> {resident.name}</div>
-              <div><strong>Home:</strong> {props.location.name}</div>
-              <div><strong>Status:</strong> {resident.status}</div>
-              <img src={resident.image}></img>
-            </div>
-          );
-        })}
-      </div>
-      <hr />
-    </div>
-  );
-};
 
 const Locations = (props) => {
   const [apiData, setApiData] = useState([]);

@@ -1,9 +1,6 @@
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql,
 } from "@apollo/client";
 import "./App.css";
 import Locations from "./components/Locations/Locations";

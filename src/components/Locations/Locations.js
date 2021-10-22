@@ -20,6 +20,10 @@ function getData(client) {
   });
 }
 
+// const LocationResidents = () => {
+//
+// }
+
 const Locations = (props) => {
   const [apiData, setApiData] = useState([]);
 
@@ -33,16 +37,13 @@ const Locations = (props) => {
     return () => (mounted = false);
   }, []);
 
-  const { locations } = apiData.data
-
   return (
     <div>
       <div>Cal's Rick and Morty API</div>
       <h1>Locations</h1>
       <ul>
-        {locations?.results?.map((location) => (
-          <li>{location.name}</li>
-        ))}
+        {apiData.data &&
+          apiData.data.locations.results.map((location) => <li>{location.name}</li>)}
       </ul>
     </div>
   );

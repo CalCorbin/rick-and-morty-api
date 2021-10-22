@@ -12,6 +12,7 @@ function getData(client) {
             residents {
               name
               status
+              image
             }
           }
         }
@@ -20,21 +21,21 @@ function getData(client) {
   });
 }
 
-// const LocationResidents = () => {
-//
-// }
 const LocationMetrics = (props) => {
   return (
     <div style={{ "margin-bottom": "30px" }}>
-      <h3>{props.location.name}</h3>
+      <h2>
+        {props.location.name} | {props.location.type}
+      </h2>
       <h4>Residents</h4>
       <div>
         {props.location.residents.map((resident) => {
           return (
-            <div>
-              <div>
-                Name: {resident.name} | Status: {resident.status}
-              </div>
+            <div style={{ "margin-bottom": "15px" }}>
+              <div><strong>Name:</strong> {resident.name}</div>
+              <div><strong>Home:</strong> {props.location.name}</div>
+              <div><strong>Status:</strong> {resident.status}</div>
+              <img src={resident.image}></img>
             </div>
           );
         })}

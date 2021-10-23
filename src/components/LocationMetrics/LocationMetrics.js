@@ -8,6 +8,12 @@ const LocationMetrics = (props) => {
     setIsOpen((prev) => !prev);
   };
 
+  function loadResidents(residents) {
+    return residents.map((resident, index) => (
+      <Resident key={`resident-${index}`} resident={resident} />
+    ));
+  }
+
   return (
     <div style={{ 'margin-bottom': '30px' }}>
       <div>
@@ -16,10 +22,7 @@ const LocationMetrics = (props) => {
       <button onClick={handleResidentsDisplay}>
         {isOpen ? 'Hide Residents' : 'View Residents'}
       </button>
-      {isOpen &&
-        props.location.residents.map((resident, index) => (
-          <Resident key={`resident-${index}`} resident={resident} />
-        ))}
+      {isOpen && loadResidents(props.location.residents)}
     </div>
   );
 };

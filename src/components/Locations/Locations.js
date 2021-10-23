@@ -28,7 +28,6 @@ const Locations = (props) => {
 
   useEffect(() => {
     let mounted = true;
-    // TODO - API error handling
     getData(props.client).then((items) => {
       if (mounted) {
         setApiData(items);
@@ -41,12 +40,12 @@ const Locations = (props) => {
     <div>
       <div>Cal's Rick and Morty API</div>
       <h1>Locations</h1>
-      <ul>
+      <div>
         {apiData.data &&
           apiData.data.locations.results.map((location, index) => (
             <LocationMetrics key={`location-${index}`} location={location} />
           ))}
-      </ul>
+      </div>
     </div>
   );
 };

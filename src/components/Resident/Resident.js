@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
-import Modal from 'react-modal';
+import React, { useState, useEffect } from 'react';
+import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card'
+import Alert from 'react-bootstrap/Alert'
 
 const Resident = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [itemInput, setItemInput] = useState('');
+  const [alert, setAlert] = useState(false);
+
+  useEffect(() => {
+    if (alert) {
+      setTimeout(() => {
+        setAlert(false);
+      }, 1000)
+    }
+  }, [alert])
 
   function setItem(notes) {
     return fetch('https://jsonplaceholder.typicode.com/posts', {
@@ -24,11 +35,13 @@ const Resident = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setItem(itemInput);
+    setItem(itemInput).then(() => {
+      setAlert(true)
+    });
   };
 
   return (
-    <div style={{ 'margin-bottom': '15px' }}>
+    <Card style={{width: '18rem', padding: '10px'}}>
       <div>
         <strong>Name:</strong> {props.resident.name}
       </div>
@@ -40,9 +53,10 @@ const Resident = (props) => {
         <Button onClick={handleResidentDisplay} variant="secondary" size="sm">Show Resident Notes</Button>
       </div>
       {modalIsOpen && (
-        <Modal ariaHideApp={false} isOpen={modalIsOpen}>
-          <Button variant="danger" onClick={handleResidentDisplay} size="sm">x</Button>
-          <div>Name: {props.resident.name}</div>
+        <Modal ariaHideApp={false} show={modalIsOpen} onHide={handleResidentDisplay}>
+          <Modal.Header closeButton>
+            <Modal.Title>{props.resident.name}</Modal.Title>
+          </Modal.Header>
           <div>Status: {props.resident.status}</div>
           <img src={props.resident.image} alt={props.resident.name}></img>
           <form onSubmit={handleSubmit}>
@@ -54,12 +68,12 @@ const Resident = (props) => {
                 value={itemInput}
               ></input>
             </label>
-            {/*TODO- Add success on save*/}
             <Button type="submit" variant="primary" size="sm">Save Notes</Button>
+            {alert && <Alert variant="success">Notes Saved</Alert>}
           </form>
         </Modal>
       )}
-    </div>
+    </Card>
   );
 };
 

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import ResidentModal from "../ResidentModal/ResidentModal";
+import React, { useState } from 'react';
+import ResidentModal from '../ResidentModal/ResidentModal';
 
 const Residents = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -13,7 +13,7 @@ const Residents = (props) => {
       <div
         data-testid={`resident-${index}`}
         key={`resident-${index}`}
-        style={{ "margin-bottom": "15px" }}
+        style={{ 'margin-bottom': '15px' }}
       >
         <div>
           <strong>Name:</strong> {resident.name}
@@ -39,7 +39,7 @@ const LocationMetrics = (props) => {
   };
 
   return (
-    <div style={{ "margin-bottom": "30px" }}>
+    <div style={{ 'margin-bottom': '30px' }}>
       <div>
         {props.location.name} | {props.location.type}
       </div>

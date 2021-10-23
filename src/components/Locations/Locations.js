@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
-import { useEffect, useState } from "react";
-import LocationMetrics from "../LocationMetrics/LocationMetrics";
+import { gql } from '@apollo/client';
+import { useEffect, useState } from 'react';
+import LocationMetrics from '../LocationMetrics/LocationMetrics';
 
 function getData(client) {
   return client.query({

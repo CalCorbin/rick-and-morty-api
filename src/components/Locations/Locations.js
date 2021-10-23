@@ -29,6 +29,13 @@ const Error = () => {
   return <Alert variant="danger">Error Loading Rick and Morty Locations</Alert>;
 };
 
+const cardStyles = {
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  justifyContent: 'center',
+};
+
 const Locations = (props) => {
   const { loading, error, data } = useQuery(GET_LOCATIONS);
 
@@ -39,7 +46,7 @@ const Locations = (props) => {
     <div>
       <div>Explore the Worlds of Rick and Morty</div>
       <h1>Locations</h1>
-      <div>
+      <div style={cardStyles}>
         {data &&
           data.locations.results.map((location, index) => (
             <LocationData

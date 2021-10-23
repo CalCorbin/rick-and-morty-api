@@ -6,6 +6,7 @@ import Alert from 'react-bootstrap/Alert';
 import Resident from '../Resident/Resident';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
+import Modal from 'react-bootstrap/Modal';
 
 const GET_RESIDENTS = (locationId) => {
   return gql`
@@ -36,11 +37,31 @@ const Error = () => {
 
 const LocationData = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleLocationModal = () => {
+    setModalIsOpen((prev) => !prev);
+  };
+
+  const cardStyles = {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  };
 
   function loadResidents(residents) {
-    return residents.map((resident, index) => (
-      <Resident key={`resident-${index}`} resident={resident} />
-    ));
+    return (
+      <Modal show={modalIsOpen} centered size="lg" onHide={handleLocationModal}>
+        <Modal.Header closeButton>{props.location.name}</Modal.Header>
+        <div style={cardStyles}>
+        {residents.map((resident, index) => (
+          <Resident key={`resident-${index}`} resident={resident} />
+        ))}
+        </div>
+
+      </Modal>
+    );
   }
 
   const [getResidents, { loading, error, data }] = useLazyQuery(
@@ -49,6 +70,7 @@ const LocationData = (props) => {
 
   function openResidents() {
     setIsOpen((prev) => !prev);
+    handleLocationModal()
     getResidents();
   }
 
@@ -56,7 +78,9 @@ const LocationData = (props) => {
   if (error) return <Error />;
 
   return (
-    <Card style={{ margin: '10px', width: '20%', padding: '10px' }}>
+    <Card
+      style={{ margin: '10px', width: '20%', padding: '10px', height: '150px' }}
+    >
       <div data-testid={`location-${props.location.id}`}>
         <Card.Title>{props.location.name}</Card.Title>
       </div>
@@ -69,7 +93,7 @@ const LocationData = (props) => {
         className="btn-primary"
         size="sm"
       >
-        {isOpen ? 'Hide Residents' : 'View Residents'}
+        View Residents
       </Button>
       {isOpen && data && loadResidents(data.location.residents)}
     </Card>

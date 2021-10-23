@@ -53,13 +53,14 @@ const LocationData = (props) => {
   function loadResidents(residents) {
     return (
       <Modal show={modalIsOpen} centered size="lg" onHide={handleLocationModal}>
-        <Modal.Header closeButton>{props.location.name}</Modal.Header>
+        <Modal.Header closeButton>
+          <Modal.Title>{props.location.name}</Modal.Title>
+        </Modal.Header>
         <div style={cardStyles}>
-        {residents.map((resident, index) => (
-          <Resident key={`resident-${index}`} resident={resident} />
-        ))}
+          {residents.map((resident, index) => (
+            <Resident key={`resident-${index}`} resident={resident} />
+          ))}
         </div>
-
       </Modal>
     );
   }
@@ -70,7 +71,7 @@ const LocationData = (props) => {
 
   function openResidents() {
     setIsOpen((prev) => !prev);
-    handleLocationModal()
+    handleLocationModal();
     getResidents();
   }
 

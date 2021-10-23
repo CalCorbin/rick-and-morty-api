@@ -44,7 +44,7 @@ const Resident = (props) => {
   return (
     <Card
       data-testid="resident-card"
-      style={{ width: '18rem', padding: '10px' }}
+      style={{ width: '18rem', padding: '10px', margin: '10px' }}
     >
       <div>
         <strong>Name:</strong> {props.resident.name}
@@ -57,16 +57,15 @@ const Resident = (props) => {
         src={props.resident.image}
         alt={props.resident.name}
       ></img>
-      <div>
-        <Button
-          data-testid="show-resident-notes-button"
-          onClick={handleResidentDisplay}
-          variant="secondary"
-          size="sm"
-        >
-          Show Resident Notes
-        </Button>
-      </div>
+      <Button
+        data-testid="show-resident-notes-button"
+        onClick={handleResidentDisplay}
+        variant="secondary"
+        size="sm"
+        style={{ margin: '5px' }}
+      >
+        Show Resident Notes
+      </Button>
       {modalIsOpen && (
         <Modal
           show={modalIsOpen}
@@ -74,38 +73,43 @@ const Resident = (props) => {
           data-testid={`modal-${props.resident.id}`}
         >
           <Modal.Header closeButton>
-            <Modal.Title>{props.resident.name}</Modal.Title>
+            <Modal.Title>{props.resident.name} | Status: {props.resident.status}</Modal.Title>
           </Modal.Header>
-          <div>Status: {props.resident.status}</div>
-          <img
-            data-testid={`modal-img-${props.resident.id}`}
-            src={props.resident.image}
-            alt={props.resident.name}
-          ></img>
-          <form onSubmit={handleSubmit}>
-            <label>
-              <p>Resident Notes:</p>
-              <input
-                type="text"
-                data-testid="notes-input"
-                onChange={(event) => setItemInput(event.target.value)}
-                value={itemInput}
-              ></input>
-            </label>
-            <Button
-              data-testid="save-notes-button"
-              type="submit"
-              variant="primary"
-              size="sm"
-            >
-              Save Notes
-            </Button>
-            {alert && (
-              <Alert data-testid="notes-saved-alert" variant="success">
-                Notes Saved
-              </Alert>
-            )}
-          </form>
+          <Modal.Body>
+
+            <img
+              data-testid={`modal-img-${props.resident.id}`}
+              src={props.resident.image}
+              alt={props.resident.name}
+              style={{ margin: '10px' }}
+            ></img>
+            <form onSubmit={handleSubmit}>
+                <label>
+                  <p>Resident Notes:</p>
+                  <input
+                    type="text"
+                    data-testid="notes-input"
+                    onChange={(event) => setItemInput(event.target.value)}
+                    value={itemInput}
+                  ></input>
+                </label>
+              <div style={{ marginTop: '10px'}}>
+              <Button
+                data-testid="save-notes-button"
+                type="submit"
+                size="sm"
+                className="btn-secondary"
+              >
+                Save Notes
+              </Button>
+              </div>
+              {alert && (
+                <Alert data-testid="notes-saved-alert" variant="success" style={{ marginTop: '10px'}}>
+                  Notes Saved
+                </Alert>
+              )}
+            </form>
+          </Modal.Body>
         </Modal>
       )}
     </Card>

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
+import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import Resident from '../Resident/Resident';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
+import Modal from 'react-bootstrap/Modal';
 
 const GET_RESIDENTS = (locationId) => {
   return gql`
@@ -33,13 +35,34 @@ const Error = () => {
   return <Alert variant="danger">Error Loading Rick and Morty Locations</Alert>;
 };
 
-const LocationMetrics = (props) => {
+const LocationData = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleLocationModal = () => {
+    setModalIsOpen((prev) => !prev);
+  };
+
+  const cardStyles = {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  };
 
   function loadResidents(residents) {
-    return residents.map((resident, index) => (
-      <Resident key={`resident-${index}`} resident={resident} />
-    ));
+    return (
+      <Modal show={modalIsOpen} centered size="lg" onHide={handleLocationModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>{props.location.name}</Modal.Title>
+        </Modal.Header>
+        <div style={cardStyles}>
+          {residents.map((resident, index) => (
+            <Resident key={`resident-${index}`} resident={resident} />
+          ))}
+        </div>
+      </Modal>
+    );
   }
 
   const [getResidents, { loading, error, data }] = useLazyQuery(
@@ -48,6 +71,7 @@ const LocationMetrics = (props) => {
 
   function openResidents() {
     setIsOpen((prev) => !prev);
+    handleLocationModal();
     getResidents();
   }
 
@@ -55,24 +79,29 @@ const LocationMetrics = (props) => {
   if (error) return <Error />;
 
   return (
-    <div style={{ marginBottom: '30px' }}>
+    <Card
+      style={{ margin: '10px', width: '20%', padding: '10px', height: '150px' }}
+    >
       <div data-testid={`location-${props.location.id}`}>
-        {props.location.name} | {props.location.type}
+        <Card.Title>{props.location.name}</Card.Title>
       </div>
+      <Card.Text>
+        <strong>Type:</strong> {props.location.type}
+      </Card.Text>
       <Button
         onClick={() => openResidents()}
         variant="primary"
         className="btn-primary"
         size="sm"
       >
-        {isOpen ? 'Hide Residents' : 'View Residents'}
+        View Residents
       </Button>
       {isOpen && data && loadResidents(data.location.residents)}
-    </div>
+    </Card>
   );
 };
 
-LocationMetrics.propTypes = {
+LocationData.propTypes = {
   client: PropTypes.object,
   location: PropTypes.shape({
     id: PropTypes.string,
@@ -81,4 +110,4 @@ LocationMetrics.propTypes = {
   }),
 };
 
-export default LocationMetrics;
+export default LocationData;

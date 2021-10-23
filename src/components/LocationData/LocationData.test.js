@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import LocationMetrics from './LocationMetrics';
+import LocationData from './LocationData';
 
 const location = {
   name: 'Oklahoma',
   type: 'state',
 };
 
-beforeEach(() => render(<LocationMetrics location={location} />));
+beforeEach(() => render(<LocationData location={location} />));
 
 test('renders', () => {
   const locationName = screen.getByText(/Oklahoma/i);

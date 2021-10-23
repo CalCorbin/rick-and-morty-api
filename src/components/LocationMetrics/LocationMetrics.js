@@ -14,7 +14,7 @@ const LocationMetrics = (props) => {
         {props.location.name} | {props.location.type}
       </div>
       <button onClick={handleResidentsDisplay}>
-        {isOpen ? 'Hide Residents' : 'View Residents' }
+        {isOpen ? 'Hide Residents' : 'View Residents'}
       </button>
       {isOpen &&
         props.location.residents.map((resident, index) => (

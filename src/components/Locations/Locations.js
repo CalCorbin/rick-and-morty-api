@@ -11,6 +11,7 @@ function getData(client) {
             name
             type
             residents {
+              id
               name
               status
               image
@@ -27,6 +28,7 @@ const Locations = (props) => {
 
   useEffect(() => {
     let mounted = true;
+    // TODO - API error handling
     getData(props.client).then((items) => {
       if (mounted) {
         setApiData(items);

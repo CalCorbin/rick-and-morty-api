@@ -33,7 +33,7 @@ const Error = () => {
   return <Alert variant="danger">Error Loading Rick and Morty Locations</Alert>;
 };
 
-const LocationMetrics = (props) => {
+const LocationData = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   function loadResidents(residents) {
@@ -72,7 +72,7 @@ const LocationMetrics = (props) => {
   );
 };
 
-LocationMetrics.propTypes = {
+LocationData.propTypes = {
   client: PropTypes.object,
   location: PropTypes.shape({
     id: PropTypes.string,
@@ -81,4 +81,4 @@ LocationMetrics.propTypes = {
   }),
 };
 
-export default LocationMetrics;
+export default LocationData;

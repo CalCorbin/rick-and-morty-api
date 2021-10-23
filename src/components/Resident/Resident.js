@@ -5,7 +5,6 @@ const Resident = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleResidentDisplay = () => {
-    console.log('-> modalIsOpen', modalIsOpen);
     setModalIsOpen((prev) => !prev);
   };
 
@@ -27,6 +26,11 @@ const Resident = (props) => {
           <div>Name: {props.resident.name}</div>
           <div>Status: {props.resident.status}</div>
           <img src={props.resident.image} alt={props.resident.name}></img>
+          <div>
+          <label>Resident Notes:</label>
+          <input type="text" name="notes"></input>
+          <button>Save Notes</button>
+          </div>
         </Modal>
       )}
     </div>

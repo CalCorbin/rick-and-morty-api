@@ -44,11 +44,11 @@ const LocationMetrics = (props) => {
 
   const [getResidents, { loading, error, data }] = useLazyQuery(
     GET_RESIDENTS(props.location.id)
-  )
+  );
 
   function openResidents() {
     setIsOpen((prev) => !prev);
-    getResidents()
+    getResidents();
   }
 
   if (loading) return <Loading />;
@@ -56,7 +56,7 @@ const LocationMetrics = (props) => {
 
   return (
     <div style={{ marginBottom: '30px' }}>
-      <div>
+      <div data-testid={`location-${props.location.id}`}>
         {props.location.name} | {props.location.type}
       </div>
       <Button

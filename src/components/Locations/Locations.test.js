@@ -1,20 +1,16 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import client from '../../App';
-import Locations, { locationsQuery } from './Locations';
+import { render, screen, waitFor } from '@testing-library/react';
+import Locations, { GET_LOCATIONS } from './Locations';
 import { MockedProvider } from '@apollo/client/testing';
 
 const mocks = [
   {
     request: {
-      query: locationsQuery,
-      variables: {
-        name: 'lol',
-      },
+      query: GET_LOCATIONS,
     },
     result: {
       data: {
-        dog: { id: '1', name: 'Buck', breed: 'bulldog' },
+        locations: { results: [{ id: '1', name: 'Earth', type: 'Planet' }] },
       },
     },
   },
@@ -28,7 +24,10 @@ beforeEach(() =>
   )
 );
 
-test('renders', () => {
-  const locationName = screen.getByText(/Oklahoma/i);
-  expect(locationName).toBeInTheDocument();
+test('renders', async () => {
+  const title = /Explore the Worlds of Rick and Morty/i;
+
+  await waitFor(() => screen.getByText(title));
+  expect(screen.getByText(title)).toBeInTheDocument();
+  expect(screen.getByTestId('location-1')).toBeInTheDocument();
 });

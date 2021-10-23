@@ -5,7 +5,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import LocationMetrics from '../LocationMetrics/LocationMetrics';
 
-export const locationsQuery = gql`
+export const GET_LOCATIONS = gql`
   query {
     locations {
       results {
@@ -30,7 +30,7 @@ const Error = () => {
 };
 
 const Locations = (props) => {
-  const { loading, error, data } = useQuery(locationsQuery);
+  const { loading, error, data } = useQuery(GET_LOCATIONS);
 
   if (loading) return <Loading />;
   if (error) return <Error />;

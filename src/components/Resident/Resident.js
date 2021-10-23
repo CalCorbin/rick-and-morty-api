@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import Button from 'react-bootstrap/Button';
 
 const Resident = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -36,11 +37,11 @@ const Resident = (props) => {
       </div>
       <img src={props.resident.image} alt={props.resident.name}></img>
       <div>
-        <button onClick={handleResidentDisplay}>Show Resident Notes</button>
+        <Button onClick={handleResidentDisplay} variant="secondary" size="sm">Show Resident Notes</Button>
       </div>
       {modalIsOpen && (
         <Modal ariaHideApp={false} isOpen={modalIsOpen}>
-          <button onClick={handleResidentDisplay}>x</button>
+          <Button variant="danger" onClick={handleResidentDisplay} size="sm">x</Button>
           <div>Name: {props.resident.name}</div>
           <div>Status: {props.resident.status}</div>
           <img src={props.resident.image} alt={props.resident.name}></img>
@@ -53,7 +54,8 @@ const Resident = (props) => {
                 value={itemInput}
               ></input>
             </label>
-            <button type="submit">Save Notes</button>
+            {/*TODO- Add success on save*/}
+            <Button type="submit" variant="primary" size="sm">Save Notes</Button>
           </form>
         </Modal>
       )}

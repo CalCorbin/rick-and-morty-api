@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Resident from '../Resident/Resident';
+import Button from 'react-bootstrap/Button';
 
 const LocationMetrics = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,9 +20,9 @@ const LocationMetrics = (props) => {
       <div>
         {props.location.name} | {props.location.type}
       </div>
-      <button onClick={handleResidentsDisplay}>
+      <Button onClick={handleResidentsDisplay} variant="primary" className="btn-primary" size="sm">
         {isOpen ? 'Hide Residents' : 'View Residents'}
-      </button>
+      </Button>
       {isOpen && loadResidents(props.location.residents)}
     </div>
   );

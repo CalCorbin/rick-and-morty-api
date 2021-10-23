@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import LocationMetrics from '../LocationMetrics/LocationMetrics';
 
-function getData(client) {
+function queryLocations(client) {
   return client.query({
     query: gql`
       query {
@@ -10,6 +10,7 @@ function getData(client) {
           results {
             name
             type
+            id
             residents {
               id
               name
@@ -28,7 +29,7 @@ const Locations = (props) => {
 
   useEffect(() => {
     let mounted = true;
-    getData(props.client).then((items) => {
+    queryLocations(props.client).then((items) => {
       if (mounted) {
         setApiData(items);
       }
@@ -43,7 +44,11 @@ const Locations = (props) => {
       <div>
         {apiData.data &&
           apiData.data.locations.results.map((location, index) => (
-            <LocationMetrics key={`location-${index}`} location={location} />
+            <LocationMetrics
+              client={props.client}
+              key={`location-${index}`}
+              location={location}
+            />
           ))}
       </div>
     </div>

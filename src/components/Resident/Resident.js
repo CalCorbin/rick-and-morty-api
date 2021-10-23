@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card'
-import Alert from 'react-bootstrap/Alert'
+import Card from 'react-bootstrap/Card';
+import Alert from 'react-bootstrap/Alert';
 
 const Resident = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -13,9 +13,9 @@ const Resident = (props) => {
     if (alert) {
       setTimeout(() => {
         setAlert(false);
-      }, 1000)
+      }, 1000);
     }
-  }, [alert])
+  }, [alert]);
 
   function setItem(notes) {
     return fetch('https://jsonplaceholder.typicode.com/posts', {
@@ -36,12 +36,12 @@ const Resident = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setItem(itemInput).then(() => {
-      setAlert(true)
+      setAlert(true);
     });
   };
 
   return (
-    <Card style={{width: '18rem', padding: '10px'}}>
+    <Card style={{ width: '18rem', padding: '10px' }}>
       <div>
         <strong>Name:</strong> {props.resident.name}
       </div>
@@ -50,10 +50,16 @@ const Resident = (props) => {
       </div>
       <img src={props.resident.image} alt={props.resident.name}></img>
       <div>
-        <Button onClick={handleResidentDisplay} variant="secondary" size="sm">Show Resident Notes</Button>
+        <Button onClick={handleResidentDisplay} variant="secondary" size="sm">
+          Show Resident Notes
+        </Button>
       </div>
       {modalIsOpen && (
-        <Modal ariaHideApp={false} show={modalIsOpen} onHide={handleResidentDisplay}>
+        <Modal
+          ariaHideApp={false}
+          show={modalIsOpen}
+          onHide={handleResidentDisplay}
+        >
           <Modal.Header closeButton>
             <Modal.Title>{props.resident.name}</Modal.Title>
           </Modal.Header>
@@ -68,7 +74,9 @@ const Resident = (props) => {
                 value={itemInput}
               ></input>
             </label>
-            <Button type="submit" variant="primary" size="sm">Save Notes</Button>
+            <Button type="submit" variant="primary" size="sm">
+              Save Notes
+            </Button>
             {alert && <Alert variant="success">Notes Saved</Alert>}
           </form>
         </Modal>

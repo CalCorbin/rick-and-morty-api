@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { gql } from '@apollo/client';
 import Resident from '../Resident/Resident';
 import Button from 'react-bootstrap/Button';
 
+function queryForResidents(client, locationId) {
+  return client.query({
+    query: gql`
+      query {
+        location(id: ${locationId}) {
+          residents {
+              id
+              name
+              status
+              image
+          }
+        }
+      }
+    `,
+  });
+}
+
 const LocationMetrics = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleResidentsDisplay = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const [residents, setResidentData] = useState([]);
 
   function loadResidents(residents) {
     return residents.map((resident, index) => (
@@ -15,15 +30,27 @@ const LocationMetrics = (props) => {
     ));
   }
 
+  const handleResidentsDisplay = async () => {
+    const getResidents = await queryForResidents(props.client, props.location.id)
+    const { residents } = getResidents.data.location
+    await setResidentData(residents);
+    setIsOpen((prev) => !prev);
+  };
+
   return (
-    <div style={{ 'marginBottom': '30px' }}>
+    <div style={{ marginBottom: '30px' }}>
       <div>
         {props.location.name} | {props.location.type}
       </div>
-      <Button onClick={handleResidentsDisplay} variant="primary" className="btn-primary" size="sm">
+      <Button
+        onClick={handleResidentsDisplay}
+        variant="primary"
+        className="btn-primary"
+        size="sm"
+      >
         {isOpen ? 'Hide Residents' : 'View Residents'}
       </Button>
-      {isOpen && loadResidents(props.location.residents)}
+      {isOpen && loadResidents(residents)}
     </div>
   );
 };

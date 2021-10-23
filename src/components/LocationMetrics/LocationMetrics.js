@@ -1,34 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import ResidentModal from "../ResidentModal/ResidentModal";
 
 const Residents = (props) => {
-  return (
-  props.residents.map((resident) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleResidentsDisplay = () => {
+    setModalIsOpen((prev) => !prev);
+  };
+
+  return props.residents.map((resident, index) => {
     return (
-      <div style={{ "margin-bottom": "15px" }}>
-        <div><strong>Name:</strong> {resident.name}</div>
-        <div><strong>Status:</strong> {resident.status}</div>
-        <img src={resident.image}></img>
+      <div
+        data-testid={`resident-${index}`}
+        key={`resident-${index}`}
+        style={{ "margin-bottom": "15px" }}
+      >
+        <div>
+          <strong>Name:</strong> {resident.name}
+        </div>
+        <div>
+          <strong>Status:</strong> {resident.status}
+        </div>
+        <img src={resident.image} alt={resident.name}></img>
+        <div>
+          <button onClick={handleResidentsDisplay}>Show Resident Notes</button>
+        </div>
+        {modalIsOpen && <ResidentModal />}
       </div>
     );
-    })
-  )
-}
+  });
+};
 
 const LocationMetrics = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleFilterOpening = () => {
+  const handleResidentsDisplay = () => {
     setIsOpen((prev) => !prev);
   };
 
   return (
     <div style={{ "margin-bottom": "30px" }}>
-      <button onClick={handleFilterOpening}>
+      <div>
         {props.location.name} | {props.location.type}
-      </button>
-      {isOpen && (
-      <Residents residents={props.location.residents} />
-      )}
+      </div>
+      <button onClick={handleResidentsDisplay}>View Residents</button>
+      {isOpen && <Residents residents={props.location.residents} />}
     </div>
   );
 };

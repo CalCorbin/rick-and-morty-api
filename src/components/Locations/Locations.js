@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LocationMetrics from "../LocationMetrics/LocationMetrics";
 
 function getData(client) {
@@ -33,7 +33,7 @@ const Locations = (props) => {
       }
     });
     return () => (mounted = false);
-  }, []);
+  });
 
   return (
     <div>
@@ -41,8 +41,8 @@ const Locations = (props) => {
       <h1>Locations</h1>
       <ul>
         {apiData.data &&
-          apiData.data.locations.results.map((location) => (
-            <LocationMetrics location={location} />
+          apiData.data.locations.results.map((location, index) => (
+            <LocationMetrics key={`location-${index}`} location={location} />
           ))}
       </ul>
     </div>

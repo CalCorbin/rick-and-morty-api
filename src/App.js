@@ -1,7 +1,4 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 import "./App.css";
 import Locations from "./components/Locations/Locations";
 

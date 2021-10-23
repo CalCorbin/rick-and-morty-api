@@ -1,53 +1,60 @@
-import { gql } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { gql, useQuery } from '@apollo/client';
+import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert';
 import LocationMetrics from '../LocationMetrics/LocationMetrics';
 
-function getData(client) {
-  return client.query({
-    query: gql`
-      query {
-        locations {
-          results {
-            name
-            type
-            residents {
-              id
-              name
-              status
-              image
-            }
-          }
-        }
+export const GET_LOCATIONS = gql`
+  query {
+    locations {
+      results {
+        name
+        type
+        id
       }
-    `,
-  });
-}
+    }
+  }
+`;
+
+const Loading = () => {
+  return (
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+  );
+};
+
+const Error = () => {
+  return <Alert variant="danger">Error Loading Rick and Morty Locations</Alert>;
+};
 
 const Locations = (props) => {
-  const [apiData, setApiData] = useState([]);
+  const { loading, error, data } = useQuery(GET_LOCATIONS);
 
-  useEffect(() => {
-    let mounted = true;
-    getData(props.client).then((items) => {
-      if (mounted) {
-        setApiData(items);
-      }
-    });
-    return () => (mounted = false);
-  });
+  if (loading) return <Loading />;
+  if (error) return <Error />;
 
   return (
     <div>
-      <div>Cal's Rick and Morty API</div>
+      <div>Explore the Worlds of Rick and Morty</div>
       <h1>Locations</h1>
       <div>
-        {apiData.data &&
-          apiData.data.locations.results.map((location, index) => (
-            <LocationMetrics key={`location-${index}`} location={location} />
+        {data &&
+          data.locations.results.map((location, index) => (
+            <LocationMetrics
+              client={props.client}
+              key={`location-${index}`}
+              location={location}
+            />
           ))}
       </div>
     </div>
   );
+};
+
+Locations.propTypes = {
+  client: PropTypes.object,
 };
 
 export default Locations;

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card'
-import Alert from 'react-bootstrap/Alert'
+import Card from 'react-bootstrap/Card';
+import Alert from 'react-bootstrap/Alert';
 
 const Resident = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -13,9 +14,9 @@ const Resident = (props) => {
     if (alert) {
       setTimeout(() => {
         setAlert(false);
-      }, 1000)
+      }, 1000);
     }
-  }, [alert])
+  }, [alert]);
 
   function setItem(notes) {
     return fetch('https://jsonplaceholder.typicode.com/posts', {
@@ -36,45 +37,88 @@ const Resident = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setItem(itemInput).then(() => {
-      setAlert(true)
+      setAlert(true);
     });
   };
 
   return (
-    <Card style={{width: '18rem', padding: '10px'}}>
+    <Card
+      data-testid="resident-card"
+      style={{ width: '18rem', padding: '10px' }}
+    >
       <div>
         <strong>Name:</strong> {props.resident.name}
       </div>
       <div>
         <strong>Status:</strong> {props.resident.status}
       </div>
-      <img src={props.resident.image} alt={props.resident.name}></img>
+      <img
+        data-testid={`img-${props.resident.id}`}
+        src={props.resident.image}
+        alt={props.resident.name}
+      ></img>
       <div>
-        <Button onClick={handleResidentDisplay} variant="secondary" size="sm">Show Resident Notes</Button>
+        <Button
+          data-testid="show-resident-notes-button"
+          onClick={handleResidentDisplay}
+          variant="secondary"
+          size="sm"
+        >
+          Show Resident Notes
+        </Button>
       </div>
       {modalIsOpen && (
-        <Modal ariaHideApp={false} show={modalIsOpen} onHide={handleResidentDisplay}>
+        <Modal
+          show={modalIsOpen}
+          onHide={handleResidentDisplay}
+          data-testid={`modal-${props.resident.id}`}
+        >
           <Modal.Header closeButton>
             <Modal.Title>{props.resident.name}</Modal.Title>
           </Modal.Header>
           <div>Status: {props.resident.status}</div>
-          <img src={props.resident.image} alt={props.resident.name}></img>
+          <img
+            data-testid={`modal-img-${props.resident.id}`}
+            src={props.resident.image}
+            alt={props.resident.name}
+          ></img>
           <form onSubmit={handleSubmit}>
             <label>
               <p>Resident Notes:</p>
               <input
                 type="text"
+                data-testid="notes-input"
                 onChange={(event) => setItemInput(event.target.value)}
                 value={itemInput}
               ></input>
             </label>
-            <Button type="submit" variant="primary" size="sm">Save Notes</Button>
-            {alert && <Alert variant="success">Notes Saved</Alert>}
+            <Button
+              data-testid="save-notes-button"
+              type="submit"
+              variant="primary"
+              size="sm"
+            >
+              Save Notes
+            </Button>
+            {alert && (
+              <Alert data-testid="notes-saved-alert" variant="success">
+                Notes Saved
+              </Alert>
+            )}
           </form>
         </Modal>
       )}
     </Card>
   );
+};
+
+Resident.propTypes = {
+  resident: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    status: PropTypes.string,
+    image: PropTypes.string,
+  }),
 };
 
 export default Resident;

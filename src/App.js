@@ -1,4 +1,5 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import React from 'react';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import './App.css';
 import Locations from './components/Locations/Locations';
 
@@ -10,7 +11,9 @@ const client = new ApolloClient({
 function App() {
   return (
     <div className="App">
-      <Locations client={client} />
+      <ApolloProvider client={client}>
+        <Locations />
+      </ApolloProvider>
     </div>
   );
 }

@@ -13,12 +13,6 @@ function queryLocations(client) {
             name
             type
             id
-            residents {
-              id
-              name
-              status
-              image
-            }
           }
         }
       }

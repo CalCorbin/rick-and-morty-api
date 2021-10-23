@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
+import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import Resident from '../Resident/Resident';
@@ -55,10 +56,13 @@ const LocationData = (props) => {
   if (error) return <Error />;
 
   return (
-    <div style={{ marginBottom: '30px' }}>
+    <Card style={{ margin: '10px', width: '20%', padding: '10px' }}>
       <div data-testid={`location-${props.location.id}`}>
-        {props.location.name} | {props.location.type}
+        <Card.Title>{props.location.name}</Card.Title>
       </div>
+      <Card.Text>
+        <strong>Type:</strong> {props.location.type}
+      </Card.Text>
       <Button
         onClick={() => openResidents()}
         variant="primary"
@@ -68,7 +72,7 @@ const LocationData = (props) => {
         {isOpen ? 'Hide Residents' : 'View Residents'}
       </Button>
       {isOpen && data && loadResidents(data.location.residents)}
-    </div>
+    </Card>
   );
 };
 

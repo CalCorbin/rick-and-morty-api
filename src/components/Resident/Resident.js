@@ -52,8 +52,11 @@ const Resident = (props) => {
       <div>
         <strong>Status:</strong> {props.resident.status}
       </div>
-      <img data-testid={`img-${props.resident.id}`}
-           src={props.resident.image} alt={props.resident.name}></img>
+      <img
+        data-testid={`img-${props.resident.id}`}
+        src={props.resident.image}
+        alt={props.resident.name}
+      ></img>
       <div>
         <Button
           data-testid="show-resident-notes-button"

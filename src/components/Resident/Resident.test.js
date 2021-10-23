@@ -3,13 +3,13 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Resident from './Resident';
 
 const resident = {
-    name: 'Beth',
-    status: 'Alive',
-    image: 'https://rickandmortyapi.com/api/character/avatar/38.jpeg',
-    id: '1',
+  name: 'Beth',
+  status: 'Alive',
+  image: 'https://rickandmortyapi.com/api/character/avatar/38.jpeg',
+  id: '1',
 };
 
-beforeEach(() => render(<Resident resident={resident} />))
+beforeEach(() => render(<Resident resident={resident} />));
 
 test('renders resident name', () => {
   const residentName = screen.getByText(/Beth/i);
@@ -22,37 +22,37 @@ test('renders resident status', () => {
 });
 
 test('renders resident img', () => {
-  const residentImage = screen.getByTestId('img-1')
+  const residentImage = screen.getByTestId('img-1');
   expect(residentImage).toBeInTheDocument();
 });
 
 test('opens modal', async () => {
-  fireEvent.click(screen.getByTestId("show-resident-notes-button"))
-  await waitFor(() => screen.getByTestId('modal-1'))
+  fireEvent.click(screen.getByTestId('show-resident-notes-button'));
+  await waitFor(() => screen.getByTestId('modal-1'));
 
-  const modalImage = screen.getByTestId("modal-img-1")
+  const modalImage = screen.getByTestId('modal-img-1');
   expect(modalImage).toBeInTheDocument();
 });
 
 test('closes modal', async () => {
-  fireEvent.click(screen.getByTestId("show-resident-notes-button"))
-  await waitFor(() => screen.getByTestId('modal-1'))
+  fireEvent.click(screen.getByTestId('show-resident-notes-button'));
+  await waitFor(() => screen.getByTestId('modal-1'));
 
-  fireEvent.click(screen.getByLabelText('Close'))
+  fireEvent.click(screen.getByLabelText('Close'));
 
-  expect(screen.queryByText(/Save Notes/i)).not.toBeInTheDocument()
+  expect(screen.queryByText(/Save Notes/i)).not.toBeInTheDocument();
 });
 
 test('saves notes', async () => {
-  fireEvent.click(screen.getByTestId("show-resident-notes-button"))
-  await waitFor(() => screen.getByTestId('modal-1'))
+  fireEvent.click(screen.getByTestId('show-resident-notes-button'));
+  await waitFor(() => screen.getByTestId('modal-1'));
 
-  const notesInput = screen.getByTestId("notes-input")
-  fireEvent.change(notesInput, {target: {value: "taking some notes!"}})
-  expect(notesInput.value).toBe("taking some notes!")
+  const notesInput = screen.getByTestId('notes-input');
+  fireEvent.change(notesInput, { target: { value: 'taking some notes!' } });
+  expect(notesInput.value).toBe('taking some notes!');
 
-  fireEvent.click(screen.getByTestId("save-notes-button"))
+  fireEvent.click(screen.getByTestId('save-notes-button'));
 
-  await waitFor(() => screen.getByTestId("notes-saved-alert"))
-  expect(screen.getByTestId("notes-saved-alert")).toBeInTheDocument()
+  await waitFor(() => screen.getByTestId('notes-saved-alert'));
+  expect(screen.getByTestId('notes-saved-alert')).toBeInTheDocument();
 });

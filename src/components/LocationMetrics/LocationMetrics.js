@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { gql } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
+import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert';
 import Resident from '../Resident/Resident';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 
-function queryForResidents(client, locationId) {
-  return client.query({
-    query: gql`
+const GET_RESIDENTS = (locationId) => {
+  return gql`
       query {
         location(id: ${locationId}) {
           residents {
@@ -17,13 +18,23 @@ function queryForResidents(client, locationId) {
           }
         }
       }
-    `,
-  });
-}
+    `;
+};
+
+const Loading = () => {
+  return (
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+  );
+};
+
+const Error = () => {
+  return <Alert variant="danger">Error Loading Rick and Morty Locations</Alert>;
+};
 
 const LocationMetrics = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [residents, setResidentData] = useState([]);
 
   function loadResidents(residents) {
     return residents.map((resident, index) => (
@@ -31,15 +42,17 @@ const LocationMetrics = (props) => {
     ));
   }
 
-  const handleResidentsDisplay = async () => {
-    const getResidents = await queryForResidents(
-      props.client,
-      props.location.id
-    );
-    const { residents } = getResidents.data.location;
-    await setResidentData(residents);
+  const [getResidents, { loading, error, data }] = useLazyQuery(
+    GET_RESIDENTS(props.location.id)
+  )
+
+  function openResidents() {
     setIsOpen((prev) => !prev);
-  };
+    getResidents()
+  }
+
+  if (loading) return <Loading />;
+  if (error) return <Error />;
 
   return (
     <div style={{ marginBottom: '30px' }}>
@@ -47,14 +60,14 @@ const LocationMetrics = (props) => {
         {props.location.name} | {props.location.type}
       </div>
       <Button
-        onClick={handleResidentsDisplay}
+        onClick={() => openResidents()}
         variant="primary"
         className="btn-primary"
         size="sm"
       >
         {isOpen ? 'Hide Residents' : 'View Residents'}
       </Button>
-      {isOpen && loadResidents(residents)}
+      {isOpen && data && loadResidents(data.location.residents)}
     </div>
   );
 };

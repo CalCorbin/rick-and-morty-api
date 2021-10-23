@@ -4,13 +4,12 @@ import LocationMetrics from './LocationMetrics';
 
 const location = {
   name: 'Oklahoma',
-  type: 'state'
+  type: 'state',
 };
 
-beforeEach(() => render(<LocationMetrics location={location} />))
+beforeEach(() => render(<LocationMetrics location={location} />));
 
 test('renders', () => {
   const locationName = screen.getByText(/Oklahoma/i);
   expect(locationName).toBeInTheDocument();
 });
-

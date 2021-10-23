@@ -40,7 +40,7 @@ const LocationMetrics = (props) => {
     await setResidentData(residents);
     setIsOpen((prev) => !prev);
   };
-  console.log('-> props.client', typeof props.client);
+
   return (
     <div style={{ marginBottom: '30px' }}>
       <div>
@@ -61,11 +61,11 @@ const LocationMetrics = (props) => {
 
 LocationMetrics.propTypes = {
   client: PropTypes.object,
-  location: {
+  location: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
     type: PropTypes.string,
-  },
+  }),
 };
 
 export default LocationMetrics;

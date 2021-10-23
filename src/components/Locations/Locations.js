@@ -59,6 +59,6 @@ const Locations = (props) => {
 
 Locations.propTypes = {
   client: PropTypes.object,
-}
+};
 
 export default Locations;

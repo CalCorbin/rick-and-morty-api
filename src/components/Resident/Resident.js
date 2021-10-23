@@ -42,43 +42,66 @@ const Resident = (props) => {
   };
 
   return (
-    <Card style={{ width: '18rem', padding: '10px' }}>
+    <Card
+      data-testid="resident-card"
+      style={{ width: '18rem', padding: '10px' }}
+    >
       <div>
         <strong>Name:</strong> {props.resident.name}
       </div>
       <div>
         <strong>Status:</strong> {props.resident.status}
       </div>
-      <img src={props.resident.image} alt={props.resident.name}></img>
+      <img data-testid={`img-${props.resident.id}`}
+           src={props.resident.image} alt={props.resident.name}></img>
       <div>
-        <Button onClick={handleResidentDisplay} variant="secondary" size="sm">
+        <Button
+          data-testid="show-resident-notes-button"
+          onClick={handleResidentDisplay}
+          variant="secondary"
+          size="sm"
+        >
           Show Resident Notes
         </Button>
       </div>
       {modalIsOpen && (
         <Modal
-          ariaHideApp={false}
           show={modalIsOpen}
           onHide={handleResidentDisplay}
+          data-testid={`modal-${props.resident.id}`}
         >
           <Modal.Header closeButton>
             <Modal.Title>{props.resident.name}</Modal.Title>
           </Modal.Header>
           <div>Status: {props.resident.status}</div>
-          <img src={props.resident.image} alt={props.resident.name}></img>
+          <img
+            data-testid={`modal-img-${props.resident.id}`}
+            src={props.resident.image}
+            alt={props.resident.name}
+          ></img>
           <form onSubmit={handleSubmit}>
             <label>
               <p>Resident Notes:</p>
               <input
                 type="text"
+                data-testid="notes-input"
                 onChange={(event) => setItemInput(event.target.value)}
                 value={itemInput}
               ></input>
             </label>
-            <Button type="submit" variant="primary" size="sm">
+            <Button
+              data-testid="save-notes-button"
+              type="submit"
+              variant="primary"
+              size="sm"
+            >
               Save Notes
             </Button>
-            {alert && <Alert variant="success">Notes Saved</Alert>}
+            {alert && (
+              <Alert data-testid="notes-saved-alert" variant="success">
+                Notes Saved
+              </Alert>
+            )}
           </form>
         </Modal>
       )}
@@ -87,12 +110,12 @@ const Resident = (props) => {
 };
 
 Resident.propTypes = {
-  resident: {
+  resident: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
     status: PropTypes.string,
-    img: PropTypes.string
-  }
-}
+    image: PropTypes.string,
+  }),
+};
 
 export default Resident;

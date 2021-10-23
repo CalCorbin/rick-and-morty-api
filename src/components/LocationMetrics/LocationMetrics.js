@@ -32,12 +32,15 @@ const LocationMetrics = (props) => {
   }
 
   const handleResidentsDisplay = async () => {
-    const getResidents = await queryForResidents(props.client, props.location.id)
-    const { residents } = getResidents.data.location
+    const getResidents = await queryForResidents(
+      props.client,
+      props.location.id
+    );
+    const { residents } = getResidents.data.location;
     await setResidentData(residents);
     setIsOpen((prev) => !prev);
   };
-console.log("-> props.client", typeof props.client);
+  console.log('-> props.client', typeof props.client);
   return (
     <div style={{ marginBottom: '30px' }}>
       <div>
@@ -61,8 +64,8 @@ LocationMetrics.propTypes = {
   location: {
     id: PropTypes.string,
     name: PropTypes.string,
-    type: PropTypes.string
-  }
-}
+    type: PropTypes.string,
+  },
+};
 
 export default LocationMetrics;

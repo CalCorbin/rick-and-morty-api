@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { gql } from '@apollo/client';
 import Resident from '../Resident/Resident';
 import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types';
 
 function queryForResidents(client, locationId) {
   return client.query({
@@ -36,7 +37,7 @@ const LocationMetrics = (props) => {
     await setResidentData(residents);
     setIsOpen((prev) => !prev);
   };
-
+console.log("-> props.client", typeof props.client);
   return (
     <div style={{ marginBottom: '30px' }}>
       <div>
@@ -54,5 +55,14 @@ const LocationMetrics = (props) => {
     </div>
   );
 };
+
+LocationMetrics.propTypes = {
+  client: PropTypes.object,
+  location: {
+    id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string
+  }
+}
 
 export default LocationMetrics;

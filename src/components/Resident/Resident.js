@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -84,5 +85,14 @@ const Resident = (props) => {
     </Card>
   );
 };
+
+Resident.propTypes = {
+  resident: {
+    id: PropTypes.string,
+    name: PropTypes.string,
+    status: PropTypes.string,
+    img: PropTypes.string
+  }
+}
 
 export default Resident;

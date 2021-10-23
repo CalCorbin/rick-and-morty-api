@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import LocationMetrics from '../LocationMetrics/LocationMetrics';
@@ -39,7 +41,7 @@ const Locations = (props) => {
 
   return (
     <div>
-      <div>Cal's Rick and Morty API</div>
+      <div>Explore the Worlds of Rick and Morty</div>
       <h1>Locations</h1>
       <div>
         {apiData.data &&
@@ -54,5 +56,9 @@ const Locations = (props) => {
     </div>
   );
 };
+
+Locations.propTypes = {
+  client: PropTypes.object,
+}
 
 export default Locations;

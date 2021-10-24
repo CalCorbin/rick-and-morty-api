@@ -60,7 +60,7 @@ const Resident = (props) => {
       <Button
         data-testid="show-resident-notes-button"
         onClick={handleResidentDisplay}
-        variant="secondary"
+        className="btn-primary"
         size="sm"
         style={{ margin: '5px' }}
       >
@@ -73,10 +73,11 @@ const Resident = (props) => {
           data-testid={`modal-${props.resident.id}`}
         >
           <Modal.Header closeButton>
-            <Modal.Title>{props.resident.name} | Status: {props.resident.status}</Modal.Title>
+            <Modal.Title>
+              {props.resident.name} | Status: {props.resident.status}
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-
+          <Modal.Body style={{backgroundColor:'#7c3e1d',color:'white'}}>
             <img
               data-testid={`modal-img-${props.resident.id}`}
               src={props.resident.image}
@@ -84,27 +85,32 @@ const Resident = (props) => {
               style={{ margin: '10px' }}
             ></img>
             <form onSubmit={handleSubmit}>
-                <label>
-                  <p>Resident Notes:</p>
-                  <input
-                    type="text"
-                    data-testid="notes-input"
-                    onChange={(event) => setItemInput(event.target.value)}
-                    value={itemInput}
-                  ></input>
-                </label>
-              <div style={{ marginTop: '10px'}}>
-              <Button
-                data-testid="save-notes-button"
-                type="submit"
-                size="sm"
-                className="btn-secondary"
-              >
-                Save Notes
-              </Button>
+              <label>
+                <p>Resident Notes:</p>
+                <textarea
+                  data-testid="resident-notes"
+                  name="resident-notes"
+                  onChange={(event) => setItemInput(event.target.value)}
+                  value={itemInput}
+                  style={{width:"200%", height:'200px'}}
+                ></textarea >
+              </label>
+              <div style={{ marginTop: '10px' }}>
+                <Button
+                  data-testid="save-notes-button"
+                  type="submit"
+                  size="sm"
+                  className="btn-primary"
+                >
+                  Save Notes
+                </Button>
               </div>
               {alert && (
-                <Alert data-testid="notes-saved-alert" variant="success" style={{ marginTop: '10px'}}>
+                <Alert
+                  data-testid="notes-saved-alert"
+                  variant="success"
+                  style={{ marginTop: '10px' }}
+                >
                   Notes Saved
                 </Alert>
               )}

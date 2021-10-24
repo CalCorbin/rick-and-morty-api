@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { gql, useQuery } from '@apollo/client';
-import Spinner from 'react-bootstrap/Spinner';
-import Alert from 'react-bootstrap/Alert';
 import LocationData from '../LocationData/LocationData';
+import Loading from '../Loading';
+import Error from '../Error';
 
 export const GET_LOCATIONS = gql`
   query {
@@ -17,23 +17,12 @@ export const GET_LOCATIONS = gql`
   }
 `;
 
-const Loading = () => {
-  return (
-    <Spinner animation="border" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </Spinner>
-  );
-};
-
-const Error = () => {
-  return <Alert variant="danger">Error Loading Rick and Morty Locations</Alert>;
-};
-
 const cardStyles = {
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
   justifyContent: 'center',
+  backgroundColor: 'gray',
 };
 
 const Locations = (props) => {
@@ -44,8 +33,7 @@ const Locations = (props) => {
 
   return (
     <div>
-      <div>Explore the Worlds of Rick and Morty</div>
-      <h1>Locations</h1>
+      <h1>Explore the Worlds of Rick and Morty</h1>
       <div style={cardStyles}>
         {data &&
           data.locations.results.map((location, index) => (

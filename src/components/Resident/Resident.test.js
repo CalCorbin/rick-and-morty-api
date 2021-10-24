@@ -47,7 +47,7 @@ test('saves notes', async () => {
   fireEvent.click(screen.getByTestId('show-resident-notes-button'));
   await waitFor(() => screen.getByTestId('modal-1'));
 
-  const notesInput = screen.getByTestId('notes-input');
+  const notesInput = screen.getByTestId('resident-notes');
   fireEvent.change(notesInput, { target: { value: 'taking some notes!' } });
   expect(notesInput.value).toBe('taking some notes!');
 
